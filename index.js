@@ -84,7 +84,7 @@ async function processRow(connection, row) {
 
         // Update the database with processed data
         await connection.query(
-            "UPDATE domains SET status = 'arkib', matched = ?, frameworks = ?, helpdesks = ?, emails = ?, contact_page_links = ?, faq_page_links = ?, data = ?, html = ? WHERE id = ?",
+            "UPDATE domains SET status = 'complete', matched = ?, frameworks = ?, helpdesks = ?, emails = ?, contact_page_links = ?, faq_page_links = ?, data = ?, html = ? WHERE id = ?",
             [
                 processedData.matched,
                 JSON.stringify(processedData.frameworks),
@@ -104,7 +104,7 @@ async function processRow(connection, row) {
 
         // Mark as error
         await connection.query(
-            "UPDATE domains SET status = 'errorArkib', data = ? WHERE id = ?",
+            "UPDATE domains SET status = 'error', data = ? WHERE id = ?",
             [error.message, row.id]
         );
     }
