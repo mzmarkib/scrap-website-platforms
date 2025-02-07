@@ -76,7 +76,8 @@ async function processRow(connection, row) {
         await connection.query("UPDATE domains SET status = 'inProgress' WHERE id = ?", [row.id]);
 
         // Fetch HTML content
-        const response = await axios.get(row.url);
+        const timeout = parseInt(process.env.FETCH_TIMEOUT) || 5000;
+        const response = await axios.get(row.url, { timeout });
         const html = response.data;
 
         // Process the HTML content
